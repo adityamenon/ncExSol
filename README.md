@@ -33,6 +33,15 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
     resources and use uniform code to deal with them.
     2. However it might be prudent in the future to use their libraries to get access to features
     I may otherwise miss out on.
+4. Defensive coding to make up for lack of types and interfaces.
+    1. For example, I would have liked to check if a given driver implements all the methods required
+    by it's service - but because JS doesn't have any types this can be very cumbersome to implement.
+    2. Nonetheless, in a production system I might be tempted to write some defensive code to throw errors
+    in case of blatant violations of the interface contract.
+    3. Noticed a really [neat trick](https://davidwalsh.name/es6-features#comment-507220) for trying to enforce
+    interfaces in ES6, could be worth experimenting with.
+5. The `Mixin.mix` utility is unnecessary, I'm sure there are libraries that already implement this (better and 
+    much more robustly). Need to search the internet properly again and utilise.
 
 ### Even nicer-to-haves
 
