@@ -1,11 +1,12 @@
 const Geocoder = require('../../../services/geocoder');
+let should = require('chai').should();
 
-describe('geocoder', () => {
-  let geocoder = new Geocoder(),
-      latitude = '',
-      longitude = '';
+describe('Geocoder', () => {
+  let geocoder = new Geocoder();
 
-  describe('Given a latitude and longitude', () => {
-
-  })
+  context('Check for presence of required validator functions', () => {
+    it('has access to an implementation of geo coordinates validity checker', () => {
+      geocoder.should.respondTo('validCoordinates');
+    });
+  });
 });

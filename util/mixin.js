@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 /**
  * Utility to provide mixin functionality.
  *
@@ -9,7 +11,15 @@
 class Mixin {
   static mix(Source, Target, methodList) {
     methodList.forEach(methodName => {
-      Target.prototype[methodName] = Source[methodName];
+      if (_.isString(methodName)) {
+        Target.prototype[methodName] = Source[methodName];
+      } else if(_.isObject(methodName)) {
+        let methodNameObject = methodName,
+            sourceMethodName = Object.keys(methodNameObject)[0],
+            targetMethodName = methodNameObject[sourceMethodName];
+
+        Target.prototype[targetMethodName] = Source[sourceMethodName];
+      }
     });
 
     return Target;

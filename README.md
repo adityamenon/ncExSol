@@ -33,7 +33,7 @@ respective URLs in the browser.-
 1. Unit tests: `npm test`
 2. Integration tests: Not yet implemented.
 
-### Nice to haves / Caveats / Challenges
+### Caveats / Challenges / Nice to haves
 
 (not implemented due to time constraints)
 
@@ -63,6 +63,10 @@ respective URLs in the browser.-
 6. The docker image should be pushed to Dockerhub so pulling it and running it would be a snap.
     1. Right now the codebase is in a good deal of flux so I don't want to 'publish' yet. Bad UX to
     make the user build the image by themselves though.
+7. Needing to use `haveOwnProperty` instead of `respondsTo` assertion particularly for testing presence of 
+    static methods on classes. Not sure why the latter isn't working as expected, needs research.
+8. The validator service has potential to become extremely messy as the application grows, it will need
+    to be broken down into sub-services (and libraries could be used).
 
 ### Even nicer-to-haves
 
@@ -70,4 +74,4 @@ respective URLs in the browser.-
     1. All defined services have at least one driver.
 2. `Facebook Flow` or some other type checking mechanism to ensure
     all the interface expectations can be explicitly defined and met.
-3. Highly usable frontend to more easily get and explore the data.
+3. Highly usable frontend to more easily play with the data.
