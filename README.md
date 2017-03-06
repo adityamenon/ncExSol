@@ -4,18 +4,36 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
 
 ### Usage
 
+1. `$ git clone` this repository and `cd` to its directory.
+2. Make sure to install Node.js version `6.10.0` - consider using `nvm`. 
+3. Then run the following commands:
+    1. `$ npm install`
+    2. `$ npm start`
+4. Open `http://0.0.0.0:3000`
+
+#### Usage with Docker
+
+(To avoid having to install another version of `node` just to run this one application.)
+
 1. Install the native Docker client for your machine: https://www.docker.com/community-edition and start it.
 2. `$ git clone` this repository and `cd` to its directory.
-3. `$ docker up`
-4. Open `http://0.0.0.0:9000`
-5. Supports HTML and JSON rendering of the three endpoints mentioned in the problem. 
+3. Then run the following commands:
+    1. `$ docker build -t adityamenon/nc-ex-sol .`
+    2. `$ docker run -p 49160:3000 -d adityamenon/nc-ex-sol`
+4. Open `http://0.0.0.0:49160`
+
+```
+[WIP!]
+After the installation and startup, it's possible to either `curl` the endpoints mentioned in the problem, or visit the 
+respective URLs in the browser.- 
+```
 
 ### Run tests
 
 1. Unit tests: `npm test`
-2. Integration tests: `blah blah`
+2. Integration tests: Not yet implemented.
 
-### Nice to haves
+### Nice to haves / Caveats / Challenges
 
 (not implemented due to time constraints)
 
@@ -42,6 +60,9 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
     interfaces in ES6, could be worth experimenting with.
 5. The `Mixin.mix` utility is unnecessary, I'm sure there are libraries that already implement this (better and 
     much more robustly). Need to search the internet properly again and utilise.
+6. The docker image should be pushed to Dockerhub so pulling it and running it would be a snap.
+    1. Right now the codebase is in a good deal of flux so I don't want to 'publish' yet. Bad UX to
+    make the user build the image by themselves though.
 
 ### Even nicer-to-haves
 
