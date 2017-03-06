@@ -6,9 +6,16 @@ const Validator = require('./validator');
  * Methods used upon the `driver` object here form the required public interface of the driver class.
  */
 class Geocoder {
-  constructor(address, driver) {
-    this.address = address;
+  constructor(driver) {
     this.driver = driver;
+  }
+
+  getCoordinatesFor(address) {
+    return new Promise(function (resolve, reject) {
+      if (! this.validAddress(address)) return reject(new Error("Invalid Address supplied."));
+
+      return resolve('yolo');
+    });
   }
 }
 
