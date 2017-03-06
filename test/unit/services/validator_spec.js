@@ -1,5 +1,6 @@
 const Validator = require('../../../services/validator');
 let should = require('chai').should();
+const _ = require('lodash');
 
 describe('Validator', () => {
 
@@ -7,6 +8,10 @@ describe('Validator', () => {
     it('implements a latLongPair validator', () => {
       Validator.should.haveOwnProperty('latLongPair');
     });
+
+    it('implements an address validator', () => {
+      Validator.should.haveOwnProperty('address');
+    })
   });
 
   describe('.latLongPair', () => {
@@ -36,6 +41,26 @@ describe('Validator', () => {
       };
 
       Validator.latLongPair(invalidLatLongPair).should.equal(false);
+    });
+  });
+
+  describe('.address', () => {
+    it('judges address not passed as strings to be invalid', () => {
+      let invalidAddress = {};
+
+      Validator.address(invalidAddress).should.equal(false);
+    });
+
+    it('judges address that is longer than 300 characters to be invalid', () => {
+      let invalidAddress = _.padEnd("address", 301, "x");
+
+      Validator.address(invalidAddress).should.equal(false);
+    });
+
+    it('is not fooled by whitespace', () => {
+      let invalidAddress = _.padEnd("", 200);
+
+      Validator.address(invalidAddress).should.equal(false);
     });
   });
 });

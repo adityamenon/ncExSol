@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 /**
  * Validator
  *
@@ -20,9 +22,9 @@ class Validator {
    * 1. Choosing to implement as a hash because there isn't native `tuple` in JS
    * 2. Choosing to use string values in the hash because of imprecise floating point representation in JS.
    */
-  static latLongPair(latLongHash = {}) {
+  static latLongPair(latLongHash) {
     /* TODO: can be refactored by extracting the "checking" of each
-       into a single function and then running against both */
+       into a single private function and then running against both */
     let latitude = latLongHash.latitude,
         longitude = latLongHash.longitude,
         validityRegex = /-?[0-9]+\.[0-9]+$/,
@@ -34,6 +36,13 @@ class Validator {
     return latitudeValid && longitudeValid;
   }
 
+  static address(address) {
+    let sanitizedAddress = _.trim(address);
+
+    return _.isString(address) &&
+            sanitizedAddress.length > 0 &&
+            sanitizedAddress.length <= 300; // TODO: make this arbitrary limit configurable
+  }
 }
 
 module.exports = Validator;

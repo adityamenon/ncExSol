@@ -6,14 +6,12 @@ const Validator = require('./validator');
  * Methods used upon the `driver` object here form the required public interface of the driver class.
  */
 class Geocoder {
-  constructor(coordinates, driver) {
-    this.coordinates = coordinates;
+  constructor(address, driver) {
+    this.address = address;
     this.driver = driver;
   }
-
-
 }
 
-Mixin.mix(Validator, Geocoder, [{'latLongPair': 'validCoordinates'}]);
+Mixin.mix(Validator, Geocoder, [{'address': 'validAddress'}]);
 
 module.exports = Geocoder;
