@@ -1,5 +1,6 @@
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
+const _ = require('lodash');
 
 /**
  * Geocoder utilizes the driver instance passed to it, to geocode addresses.
@@ -11,10 +12,18 @@ class Geocoder {
   }
 
   getCoordinatesFor(address) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (! this.validAddress(address)) return reject(new Error("Invalid Address supplied."));
 
-      return resolve('yolo');
+      if (! this.driver && ! _.isFunction(this.driver.geocodeAddress)) {
+      	return reject(new Error("Invalid Geocoding driver."));
+      }
+
+      return this.driver.geocodeAddress(address).then(
+      	coordinates => resolve(coordinates)
+      ).catch(
+      	error => reject(error)
+      );
     });
   }
 }
