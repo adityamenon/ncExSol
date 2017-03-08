@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/adityamenon/ncExSol.svg?branch=master)](https://travis-ci.org/adityamenon/ncExSol)
+[![Coverage Status](https://coveralls.io/repos/github/adityamenon/ncExSol/badge.svg?branch=master)](https://coveralls.io/github/adityamenon/ncExSol?branch=master)
 
 ### Solution for a Node.js take-home exercise
 
