@@ -8,27 +8,37 @@ let should = chai.should();
 
 describe('Geocoder', () => {
 
+  context('Initialisation', () => {
+    it('fails to initialise if driver object matches empty semantics', () => {
+      let geocoder = () => new Geocoder;
+      should.throw(geocoder, Error, 'Invalid driver provided.');
+    });
+
+    it('fails to initialise if driver object does not contain required methods', () => {
+      let geocoder = () => new Geocoder;
+      should.throw(geocoder, Error, 'Invalid driver provided.');
+    })
+  });
+
   describe('#getCoordinatesFor()', () => {
 
     it('implements a method for retrieving coordinates via the driver', () => {
-      let geocoder = new Geocoder;
+      let geoDriver = {
+            geocodeAddress: sinon.stub()
+          },
+          geocoder = new Geocoder(geoDriver);
 
       geocoder.should.respondTo('getCoordinatesFor');
     });
 
     it('fails for an invalid address through a Promise rejection', () => {
-      let geocoder = new Geocoder,
+      let geoDriver = {
+            geocodeAddress: sinon.stub()
+          },
+          geocoder = new Geocoder(geoDriver),
           invalidAddress = {},
           geocodingRequest = geocoder.getCoordinatesFor(invalidAddress);
 
-      return geocodingRequest.should.be.rejected;
-    });
-
-    it('fails when a geocoding driver is not supplied', () => {
-      let geocoder = new Geocoder,
-      address = 'Sydney',
-      geocodingRequest = geocoder.getCoordinatesFor(address);
-    
       return geocodingRequest.should.be.rejected;
     });
 

@@ -1,6 +1,7 @@
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
 const _ = require('lodash');
+const sparseChecker = require('../util/sparseChecker');
 
 /**
  * Geocoder utilizes the driver instance passed to it, to geocode addresses.
@@ -8,16 +9,16 @@ const _ = require('lodash');
  */
 class Geocoder {
   constructor(driver) {
+    if(sparseChecker(driver) || ! _.isFunction(driver.geocodeAddress)) {
+      throw new Error('Invalid driver provided.');
+    }
+
     this.driver = driver;
   }
 
   getCoordinatesFor(address) {
     return new Promise((resolve, reject) => {
       if (! this.validAddress(address)) return reject(new Error("Invalid Address supplied."));
-
-      if (! this.driver && ! _.isFunction(this.driver.geocodeAddress)) {
-      	return reject(new Error("Invalid Geocoding driver."));
-      }
 
       return this.driver.geocodeAddress(address).then(
       	coordinates => resolve(coordinates)
