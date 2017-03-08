@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/adityamenon/ncExSol.svg?branch=master)](https://travis-ci.org/adityamenon/ncExSol)
+
 ### Solution for a Node.js take-home exercise
 
 Not mentioning the company name for privacy. Exercise located here: https://goo.gl/JWghex
