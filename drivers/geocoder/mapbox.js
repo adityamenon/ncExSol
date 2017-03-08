@@ -33,8 +33,8 @@ const extractCoordinates = mapboxData => {
   let firstFeature = mapboxData.features[0]; // TODO: ideally should be filtered by highest relevance score
 
   return {
-    latitude: `${firstFeature.center[0]}`, // typecasting to string
-    longitude: `${firstFeature.center[1]}`
+    latitude: `${firstFeature.center[1]}`, // typecasting to string
+    longitude: `${firstFeature.center[0]}`
   };
 };
 

@@ -145,7 +145,7 @@ describe('Mapbox', () => {
 
       return geocodeResult.then(result => {
         geocodingScope.isDone().should.equal(true);
-        result.should.deep.equal({latitude: '151.21', longitude: '-33.868'});
+        result.should.deep.equal({longitude: '151.21', latitude: '-33.868'});
       });
     });
   });
