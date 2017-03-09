@@ -1107,4 +1107,4 @@ const forecastioFixtures = {
   }
 };
 
-export default forecastioFixtures;
+module.exports = forecastioFixtures;

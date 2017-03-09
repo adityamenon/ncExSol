@@ -114,4 +114,4 @@ const mapboxFixtures = {
   }
 };
 
-export default mapboxFixtures;
+module.exports = mapboxFixtures;
