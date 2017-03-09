@@ -15,7 +15,7 @@ class Validator {
   /**
    * latLongPair checks if the latitude and longitude provided in the hash are valid coordinate strings
    *
-   * @param latLongHash
+   * @param latLongHash: object
    * @returns {boolean|Array|{index: number, input: string}}
    *
    * Param choices:
@@ -36,6 +36,16 @@ class Validator {
     return latitudeValid && longitudeValid;
   }
 
+  /**
+   * address checks if a valid address string was provided
+   *
+   * @param address: string
+   * @returns boolean
+   *
+   * Choices:
+   * 1. Did not use the typical regex pattern for "alpha numeric only" (/[a-zA-Z0-9\s]+/),
+   *    don't want to exclude i18n characters
+   */
   static address(address) {
     let sanitizedAddress = _.trim(address);
 
