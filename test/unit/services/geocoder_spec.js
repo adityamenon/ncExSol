@@ -15,7 +15,7 @@ describe('Geocoder', () => {
     });
 
     it('fails to initialise if driver object does not contain required methods', () => {
-      let geocoder = () => new Geocoder;
+      let geocoder = () => new Geocoder({foo: 'bar'});
       should.throw(geocoder, Error, 'Invalid driver provided.');
     })
   });

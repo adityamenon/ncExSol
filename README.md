@@ -70,6 +70,10 @@ respective URLs in the browser.-
     static methods on classes. Not sure why the latter isn't working as expected, needs research.
 8. The validator service has potential to become extremely messy as the application grows, it will need
     to be broken down into sub-services (and libraries could be used).
+9. forecast.io actually appears to send a lot of data to answer all three queries with just one request. With a bit more
+    time, I'd like a cache layer in here. Didn't include because I'll also need to set up docker compose to run multiple
+    containers and link them up. The forecaster Service makes it easier to implement a cache layer when this is done
+    though.
 
 ### Even nicer-to-haves
 
