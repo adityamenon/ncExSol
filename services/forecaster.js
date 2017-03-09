@@ -1,8 +1,3 @@
-// forecast.io sends us all the data we need to answer all three types of queries for a location
-  // driver is then sent information about location
-// either way, just raw object is received from data source, and the processing to query for the data required will
-  // in this service
-
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
 const _ = require('lodash');
@@ -21,7 +16,7 @@ class Forecaster {
     this.driver = driver;
   }
 
-  getForecastFor() {
+  getFullForecastFor(coordinates) {
 
   }
 }

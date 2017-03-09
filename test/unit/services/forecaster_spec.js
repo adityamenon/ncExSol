@@ -1,6 +1,11 @@
 const Forecaster = require('../../../services/forecaster');
-let should = require('chai').should();
+const fixtures = require('../fixtures/forecastio_fixtures');
+let chai = require('chai');
+let chaiAsPromised = require('chai-as-promised');
 let sinon = require('sinon');
+
+chai.use(chaiAsPromised);
+let should = chai.should();
 
 describe('Forecaster', () => {
   context('Initialisation', () => {
@@ -25,14 +30,46 @@ describe('Forecaster', () => {
     });
   });
 
-  describe('#getForecastFor()', () => {
+  describe('#getFullForecastFor()', () => {
     it('implements a method for retrieving requested weather information', () => {
       let forecastDriver = {
         getFullForecastForCoordinates: sinon.stub()
       },
       forecaster = new Forecaster(forecastDriver);
 
-      forecaster.should.respondTo('getForecastFor');
+      forecaster.should.respondTo('getFullForecastFor');
+    });
+
+    it('fails for invalid coordinate pair through a Promise rejection', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinates: sinon.stub()
+      },
+      forecaster = new Forecaster(forecastDriver),
+      forecastRequest = forecaster.getFullForecastFor(fixtures.invalidCoordinates);
+
+      return forecastRequest.should.be.rejected;
+    });
+
+    it('resolves to the value returned by the forecasting driver promise', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinates: sinon.stub()
+      },
+      forecaster = new Forecaster(forecastDriver),
+      forecastRequest = forecaster.getFullForecastFor(fixtures.validCoordinates);
+
+      return forecastRequest.should.eventually.deep.equal(sampleForecastResponse);
+    });
+
+    it('rejects with the error from the geocoding driver', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinates: sinon.stub()
+      },
+      forecaster = new Forecaster(forecastDriver),
+      coordinates = sampleCoordinates,
+      forecastRequest = forecaster.getFullForecastFor(coordinates);
+
+      return forecastRequest.should.be.rejectedWith(Error, "Connection with API timed out");
     });
   });
+
 });
