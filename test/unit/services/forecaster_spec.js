@@ -40,7 +40,7 @@ describe('Forecaster', () => {
       forecaster.should.respondTo('getFullForecastFor');
     });
 
-   /* it('fails for invalid coordinate pair through a Promise rejection', () => {
+   it('fails for an invalid coordinate pair through a Promise rejection', () => {
       let forecastDriver = {
         getFullForecastForCoordinates: sinon.stub()
       },
@@ -52,24 +52,27 @@ describe('Forecaster', () => {
 
     it('resolves to the value returned by the forecasting driver promise', () => {
       let forecastDriver = {
-        getFullForecastForCoordinates: sinon.stub()
+        getFullForecastForCoordinates: sinon.stub().withArgs(fixtures.validCoordinates).returns(
+          Promise.resolve(fixtures.sampleResponse)
+        )
       },
       forecaster = new Forecaster(forecastDriver),
       forecastRequest = forecaster.getFullForecastFor(fixtures.validCoordinates);
 
-      return forecastRequest.should.eventually.deep.equal(sampleForecastResponse);
+      return forecastRequest.should.eventually.deep.equal(fixtures.sampleResponse);
     });
 
     it('rejects with the error from the geocoding driver', () => {
       let forecastDriver = {
-        getFullForecastForCoordinates: sinon.stub()
+        getFullForecastForCoordinates: sinon.stub().withArgs(fixtures.validCoordinates).returns(
+          Promise.reject(new Error("Connection with API timed out"))
+        )
       },
       forecaster = new Forecaster(forecastDriver),
-      coordinates = sampleCoordinates,
-      forecastRequest = forecaster.getFullForecastFor(coordinates);
+      forecastRequest = forecaster.getFullForecastFor(fixtures.validCoordinates);
 
       return forecastRequest.should.be.rejectedWith(Error, "Connection with API timed out");
-    });*/
+    });
   });
 
 });

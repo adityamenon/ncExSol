@@ -17,7 +17,15 @@ class Forecaster {
   }
 
   getFullForecastFor(coordinates) {
+    return new Promise((resolve, reject) => {
+      if (! this.validCoordinates(coordinates)) return reject(new Error("Invalid Coordinates supplied."));
 
+      return this.driver.getFullForecastForCoordinates(coordinates).then(
+        forecast => resolve(forecast)
+      ).catch(
+        error => reject(error)
+      );
+    });
   }
 }
 
