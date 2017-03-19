@@ -26,10 +26,11 @@ router.get('/weather/:location', (request, response) => {
   geocoder.getCoordinatesFor(location)
           .then(coordinates => forecaster.getFullForecastFor(coordinates))
           .then(forecast => {
-            // response.send(forecast);
-            response.format({
+            return response.format({
               html: () => response.render('fullForecast', {forecast}),
-              json: () => response.send(forecast)
+              json: () => {
+                response.send(forecast)
+              }
             });
           })
           .catch(error => {

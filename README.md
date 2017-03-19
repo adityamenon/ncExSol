@@ -26,18 +26,13 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
 4. Open `http://0.0.0.0:49160`
 5. TODO: add instructions for configuration changes
 
-```
-[WIP!]
 After the installation and startup, it's possible to either `curl` the endpoints mentioned in the problem, or visit the 
 respective URLs in the browser.- 
-
-
-```
 
 ### Run tests
 
 1. Unit tests: `npm test`
-2. Integration tests: Not yet implemented.
+2. Integration tests: `npm run integ-test`
 
 ### Caveats / Challenges / Nice to haves
 
@@ -49,9 +44,15 @@ respective URLs in the browser.-
     initialisation code.
     3. Couldn't implement because I need a lot more time for wrapping my mind around _testing_ such code.
 2. More integration tests.
-    1. Wanted to test coherent reactions of the API when one of the data APIs fails, for example, and further expansions like testing a proper 500 being returned at every single level of failure. But currently lack the time to expand that much.
-    2. My current integration still mock the API, so they're more at a functional level. Need more tests that actually also rely on the real APIs.
-        1. Doing this would require figuring out a configuration setup to provide real access tokens to these APIs as well, and probably running a separate docker container for it, too much complication to complete the test.
+    1. Wanted to test coherent reactions of the API when one of the data APIs fails, for example, and further expansions
+     like testing a proper 500 being returned at every single level of failure. But currently lack the time to expand 
+     that much.
+    2. My current integration still mock the API, so they're more at a functional level. Need more tests that actually 
+    also rely on the real APIs.
+        1. Doing this would require figuring out a configuration setup to provide real access tokens to these APIs as 
+        well, and probably running a separate docker container for it, too much complication to complete the test.
+    3. Supertest library doesn't appear to support the `response.format` shortcut I liked to use in my routes for 
+    responding in two different formats. Need to raise a PR to supertest to fix this.
 2. Geocoding information caching
     1. Adding a cache layer would be in violation of the Mapbox ToS. Not sure if Google Maps
        free edition allows for this. 
@@ -82,8 +83,8 @@ respective URLs in the browser.-
     time, I'd like a cache layer in here. Didn't include because I'll also need to set up docker compose to run multiple
     containers and link them up. The forecaster Service makes it easier to implement a cache layer when this is done
     though.
-11. Need a dependency injection container (Scatter or Electrolyte) to be able to register drivers for services automatically without the current
-    cumbersome instantiation process.
+11. Need a dependency injection container (Scatter or Electrolyte) to be able to register drivers for services 
+automatically without the current cumbersome instantiation process.
 12. JSLINT!!
 13. NODE_PATH!!
 
