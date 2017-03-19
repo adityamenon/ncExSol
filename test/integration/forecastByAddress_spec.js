@@ -4,6 +4,7 @@ const app = require('../../app');
 const should = require('chai').should();
 const nock = require('nock');
 const _ = require('lodash');
+const config = require('config');
 // TODO: Integration tests should have their own fixtures
 const mapboxFixtures = require('../unit/fixtures/mapbox_fixtures');
 const forecastIOFixtures = require('../unit/fixtures/forecastio_fixtures');
@@ -11,17 +12,17 @@ const forecastIOFixtures = require('../unit/fixtures/forecastio_fixtures');
 context('forecast by address route', () => {
 	it('responds to a request with forecast information', (done) => {
 		let address = mapboxFixtures.validAddress,
-          	mapboxAccessToken = 'dummy-access-token',
+          	mapboxAccessToken = config.geocoder.credential,
           	geocodingScope = nock('https://api.mapbox.com')
                             .get(`/geocoding/v5/mapbox.places/${address}.json`)
                             .query({access_token: mapboxAccessToken})
                             .reply(200, mapboxFixtures.sampleResponse),
             coordinates = _.values(forecastIOFixtures.validCoordinates).join(','),
-          	darkskySecretKey = 'dummy-secret-key',
+          	darkskySecretKey = config.forecaster.credential,
           	forecastScope = nock('https://api.darksky.net')
                             .get(`/forecast/${darkskySecretKey}/${coordinates}`)
                             .reply(200, forecastIOFixtures.sampleResponse),
-        	request = supertest(app);
+            request = supertest(app);
 
 		/**
 		  * During Integration testing, I'm not sure what the better strategy is: 
@@ -45,7 +46,7 @@ context('forecast by address route', () => {
 
       // finally test the response that got back
 			response.statusCode.should.equal(200);
-			response.body.should.deeply.equal(forecastIOFixtures.sampleResponse);
+			response.body.should.deep.equal(forecastIOFixtures.sampleResponse);
 
 			done();
 		});

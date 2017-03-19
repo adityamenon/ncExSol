@@ -1,8 +1,8 @@
 const forecastioFixtures = {
   invalidCoordinates: {latitude: '', longitude: 'asdf'},
-  validCoordinates: {latitude: '-37.768269', longitude: '145.022821'},
+  validCoordinates: {latitude: '-33.868', longitude: '151.21'},
   sampleResponse: {
-    "longitude" : 145.022821,
+    "longitude" : 151.21,
     "flags" : {
       "madis-stations" : [
         "AP630",
@@ -274,7 +274,7 @@ const forecastioFixtures = {
     },
     "timezone" : "Australia/Melbourne",
     "offset" : 11,
-    "latitude" : -37.768269,
+    "latitude" : -33.868,
     "hourly" : {
       "summary" : "Partly cloudy until tomorrow morning.",
       "data" : [

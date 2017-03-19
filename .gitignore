@@ -1,5 +1,5 @@
 # App configuration that may contain sensitive credentials
-config.js
+config/default.js
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template

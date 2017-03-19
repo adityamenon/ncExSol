@@ -24,11 +24,14 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
     1. `$ docker build -t adityamenon/nc-ex-sol .`
     2. `$ docker run -p 49160:3000 -d adityamenon/nc-ex-sol`
 4. Open `http://0.0.0.0:49160`
+5. TODO: add instructions for configuration changes
 
 ```
 [WIP!]
 After the installation and startup, it's possible to either `curl` the endpoints mentioned in the problem, or visit the 
 respective URLs in the browser.- 
+
+
 ```
 
 ### Run tests
@@ -79,6 +82,11 @@ respective URLs in the browser.-
     time, I'd like a cache layer in here. Didn't include because I'll also need to set up docker compose to run multiple
     containers and link them up. The forecaster Service makes it easier to implement a cache layer when this is done
     though.
+11. Need a dependency injection container (Scatter or Electrolyte) to be able to register drivers for services automatically without the current
+    cumbersome instantiation process.
+12. JSLINT!!
+13. NODE_PATH!!
+
 
 ### Even nicer-to-haves
 
