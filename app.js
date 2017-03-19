@@ -1,6 +1,10 @@
+const forecastByAddressRoute = require('./routes/forecastByAddress');
 /**
  * express.js default generated code
  */
+
+ // TODO: in case of any promise rejections, bubble the error out to HTTP via the express error handler interface
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -22,10 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-
-app.get('/weather/sydney', function(req, res) {
-	res.send('hello sydney');
-});
+app.use('/', forecastByAddressRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

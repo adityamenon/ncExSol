@@ -1,5 +1,3 @@
-// TODO: change all requires to constants in the codebase - those variables aren't allowed to be reassigned,
-// and assigning new properties on them as objects seems to work anyway - and mocking will also work - damn that's so weird
 const express = require('express');
 const supertest = require('supertest');
 const app = require('../../app');
@@ -25,12 +23,6 @@ context('forecast by address route', () => {
                             .reply(200, forecastIOFixtures.sampleResponse),
         	request = supertest(app);
 
-		// Geocoding API was called first and completed
-		geocodingScope.isDone().should.equal(true);
-
-		// Forecast API was then called, and completed
-		forecastScope.isDone().should.equal(true);
-
 		/**
 		  * During Integration testing, I'm not sure what the better strategy is: 
 		  * 1. Test that the data APIs in question are being exercised or
@@ -45,8 +37,16 @@ context('forecast by address route', () => {
 
 		// unfortunately, `request` does not appear to have the `then` keyword
 		request.get('/weather/'.concat(mapboxFixtures.validAddress)).end((error, response) => {
+      // Geocoding API was called first and completed
+      geocodingScope.isDone().should.equal(true);
+
+      // Forecast API was then called, and completed
+      forecastScope.isDone().should.equal(true);
+
+      // finally test the response that got back
 			response.statusCode.should.equal(200);
 			response.body.should.deeply.equal(forecastIOFixtures.sampleResponse);
+
 			done();
 		});
 	});
