@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const sparseChecker = require('../../../util/sparseChecker');
-let should = require('chai').should();
+const should = require('chai').should();
 
 describe('sparseChecker', () => {
   it('returns true for an array that contains one empty element', () => {

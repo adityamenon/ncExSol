@@ -1,5 +1,5 @@
 const Validator = require('../../../services/validator');
-let should = require('chai').should();
+const should = require('chai').should();
 const _ = require('lodash');
 
 describe('Validator', () => {

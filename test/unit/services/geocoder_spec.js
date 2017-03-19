@@ -1,10 +1,10 @@
 const Geocoder = require('../../../services/geocoder');
-let chai = require('chai');
-let chaiAsPromised = require('chai-as-promised');
-let sinon = require('sinon');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const sinon = require('sinon');
+const should = chai.should();
 
 chai.use(chaiAsPromised);
-let should = chai.should();
 
 describe('Geocoder', () => {
 

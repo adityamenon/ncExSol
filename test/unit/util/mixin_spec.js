@@ -1,5 +1,5 @@
 const Mixin = require('../../../util/mixin');
-let should = require('chai').should();
+const should = require('chai').should();
 
 describe('Mixin', () => {
   it('implements a method mix', () => {

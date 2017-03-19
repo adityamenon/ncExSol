@@ -1,8 +1,8 @@
 const Mapbox = require('../../../drivers/geocoder/mapbox');
 const fixtures = require('../fixtures/mapbox_fixtures');
-require('chai').should();
-let sinon = require('sinon');
-let nock = require('nock');
+const should = require('chai').should();
+const sinon = require('sinon');
+const nock = require('nock');
 
 describe('Mapbox', () => {
 

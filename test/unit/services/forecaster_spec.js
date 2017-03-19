@@ -1,11 +1,11 @@
 const Forecaster = require('../../../services/forecaster');
 const fixtures = require('../fixtures/forecastio_fixtures');
-let chai = require('chai');
-let chaiAsPromised = require('chai-as-promised');
-let sinon = require('sinon');
+const chai = require('chai');
+const should = require('chai').should();
+const chaiAsPromised = require('chai-as-promised');
+const sinon = require('sinon');
 
 chai.use(chaiAsPromised);
-let should = chai.should();
 
 describe('Forecaster', () => {
   context('Initialisation', () => {

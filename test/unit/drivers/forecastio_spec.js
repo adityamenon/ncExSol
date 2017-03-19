@@ -1,14 +1,9 @@
-// After that, it's a few short modifications to the incoming data to serve each of those three endpoints
-// testing the creation of those three endpoints is a simple matter of using sinon to mock
-
-// what would be final is the integration tests and the configuration bit...
-
 const _ = require('lodash');
 const ForecastIO = require('../../../drivers/weatherForecast/forecastio');
 const fixtures = require('../fixtures/forecastio_fixtures');
-require('chai').should();
-let sinon = require('sinon');
-let nock = require('nock');
+const should = require('chai').should();
+const sinon = require('sinon');
+const nock = require('nock');
 
 describe('ForecastIO', () => {
 
