@@ -11,7 +11,6 @@ const _ = require('lodash');
  *
  */
 
-// const sparseChecker = collection => _.reduce(collection, (result, value) => {console.log(result, value); return result && _.isEmpty(value)}, true);
 const sparseChecker = collection => _.reduce(collection, (result, value) => result && _.isEmpty(value), true);
 
 module.exports = sparseChecker;
