@@ -45,6 +45,10 @@ respective URLs in the browser.-
     2. Inspired by what I saw in [Ghost](https://github.com/TryGhost/Ghost/blob/master/core/server/index.js) 
     initialisation code.
     3. Couldn't implement because I need a lot more time for wrapping my mind around _testing_ such code.
+2. More integration tests.
+    1. Wanted to test coherent reactions of the API when one of the data APIs fails, for example, and further expansions like testing a proper 500 being returned at every single level of failure. But currently lack the time to expand that much.
+    2. My current integration still mock the API, so they're more at a functional level. Need more tests that actually also rely on the real APIs.
+        1. Doing this would require figuring out a configuration setup to provide real access tokens to these APIs as well, and probably running a separate docker container for it, too much complication to complete the test.
 2. Geocoding information caching
     1. Adding a cache layer would be in violation of the Mapbox ToS. Not sure if Google Maps
        free edition allows for this. 
@@ -63,6 +67,7 @@ respective URLs in the browser.-
     interfaces in ES6, could be worth experimenting with.
 5. The `Mixin.mix` utility is unnecessary, I'm sure there are libraries that already implement this (better and 
     much more robustly). Need to search the internet properly again and utilise.
+    1. Found _.mixin later on, but it's interface is not quite what I'm after with my rendition.
 6. The docker image should be pushed to Dockerhub so pulling it and running it would be a snap.
     1. Right now the codebase is in a good deal of flux so I don't want to 'publish' yet. Bad UX to
     make the user build the image by themselves though.
