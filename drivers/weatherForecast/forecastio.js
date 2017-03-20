@@ -1,11 +1,3 @@
-// loads up the API secret from config
-// calls the urlGenerator utility to find out how to query the actual Forecast IO API
-// sends the API request to get the forecast information
-// rejects or resolves the promise according to the result received
-
-// Now that the shell 'service' has been setup to talk between my classes and the API, I need the driver to actually
-// communicate with the forecast.io API and give me the results.
-
 const _ = require('lodash');
 const axios = require('axios');
 

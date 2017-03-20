@@ -53,6 +53,20 @@ class Validator {
             sanitizedAddress.length > 0 &&
             sanitizedAddress.length <= 300; // TODO: make this arbitrary limit configurable
   }
+
+  /**
+   * Day checks if the day of the week provided is valid
+   *
+   * @param day: string
+   * @returns boolean
+   */
+  static day(day) {
+    let sanitizedDay = _.trim(day);
+
+    return _.isString(day) && _.includes(Validator.day.validDaysOfTheWeek, sanitizedDay);
+  }
 }
+
+Validator.day.validDaysOfTheWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 module.exports = Validator;

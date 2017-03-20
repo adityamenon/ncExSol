@@ -63,4 +63,24 @@ describe('Validator', () => {
       Validator.address(invalidAddress).should.equal(false);
     });
   });
+
+  describe('.day', () => {
+    it('judges day not passed as strings to be invalid', () => {
+      let invalidDay = {};
+
+      Validator.day(invalidDay).should.equal(false);
+    });
+
+    it('rejects everything that is not a day of the week', () => {
+      let invalidDay = 'FreakyFriday';
+
+      Validator.day(invalidDay).should.equal(false);
+    });
+
+    it('has the correct idea about what the days of the week are', () => {
+      let validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+      Validator.day.validDaysOfTheWeek.should.deep.equal(validDays);
+    });
+  });
 });
