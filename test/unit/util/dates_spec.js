@@ -6,7 +6,10 @@ const Dates = require('../../../util/Dates');
 describe('Dates', () => {
   let clock;
 
-  beforeEach(() => clock = sinon.useFakeTimers(moment('20-04-2017', 'DD-MM-YYYY').milliseconds()));
+  beforeEach(() => {
+    // freezing time for the test, at 20th Mar 2017
+    clock = sinon.useFakeTimers(moment('20-03-2017', 'DD-MM-YYYY').valueOf());
+  });
 
   describe('.futureDayTimestamp', () => {
     it('implements a method futureDayTimestamp', () => {
@@ -14,7 +17,7 @@ describe('Dates', () => {
     });
 
     it('provides UNIX seconds for a day in the future week', () => {
-      Dates.futureDayTimestamp('Wednesday').should.equal(1492790400);
+      Dates.futureDayTimestamp('Wednesday').should.equal(1490112000);
     });
 
     it('provides UNIX seconds for the same day next week if passed day is same as today', () => {
