@@ -5,23 +5,22 @@ const should = require('chai').should();
 const nock = require('nock');
 const _ = require('lodash');
 const config = require('config');
-// TODO: Integration tests should have their own fixtures
-const mapboxFixtures = require('../unit/fixtures/mapbox_fixtures');
-const forecastIOFixtures = require('../unit/fixtures/forecastio_fixtures');
+const geocodingFixtures = require('./fixtures/geocoding_fixtures');
+const forecastFixtures = require('./fixtures/forecast_fixtures');
 
 context('forecast by address route', () => {
 	it('responds to a request with forecast information', (done) => {
-		let address = mapboxFixtures.validAddress,
+		let address = geocodingFixtures.validAddress,
           	mapboxAccessToken = config.geocoder.credential,
           	geocodingScope = nock('https://api.mapbox.com')
                             .get(`/geocoding/v5/mapbox.places/${address}.json`)
                             .query({access_token: mapboxAccessToken})
-                            .reply(200, mapboxFixtures.sampleResponse),
-            coordinates = _.values(forecastIOFixtures.validCoordinates).join(','),
+                            .reply(200, geocodingFixtures.sampleResponse),
+            coordinates = _.values(forecastFixtures.validCoordinates).join(','),
           	darkskySecretKey = config.forecaster.credential,
           	forecastScope = nock('https://api.darksky.net')
                             .get(`/forecast/${darkskySecretKey}/${coordinates}`)
-                            .reply(200, forecastIOFixtures.sampleResponse),
+                            .reply(200, forecastFixtures.sampleResponse),
             request = supertest(app);
 
 		/**
@@ -36,28 +35,23 @@ context('forecast by address route', () => {
 		  * stuff correctly.
 		*/
 
-		// unfortunately, `request` does not appear to have the `then` keyword
-		request.get('/weather/' + mapboxFixtures.validAddress, {
-      headers: {
-        'Accept': 'application/json'
-      }
-		}).end((error, response) => {
-      // Geocoding API was called first and completed
-      geocodingScope.isDone().should.equal(true);
+		request
+      .get('/weather/' + geocodingFixtures.validAddress)
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        // Geocoding API was called first and completed
+        geocodingScope.isDone().should.equal(true);
 
-      // Forecast API was then called, and completed
-      forecastScope.isDone().should.equal(true);
+        // Forecast API was then called, and completed
+        forecastScope.isDone().should.equal(true);
 
-      // finally test the response that got back
-			response.statusCode.should.equal(200);
+        // finally test the response that got back
+        response.statusCode.should.equal(200);
 
-			// unfortunately, `supertest` does not appear to play well with response.format express
-      // shortcut used in the routes for responding to JSON & HTML :-(
-      // will need to find a better library later, or send a PR to visionmedia/supertest
-      // response.headers['content-type'].should.equal('application/json; charset=utf-8');
-			// response.body.should.deep.equal(forecastIOFixtures.sampleResponse);
+        response.headers['content-type'].should.equal('application/json; charset=utf-8');
+        response.body.should.deep.equal(forecastFixtures.sampleResponse);
 
-			done();
-		});
+        done();
+		  });
 	});
 });

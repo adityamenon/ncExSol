@@ -1,7 +1,7 @@
 const should = require('chai').should();
 const sinon = require('sinon');
 const moment = require('moment');
-const Dates = require('../../../util/Dates');
+const Dates = require('../../../util/dates');
 
 describe('Dates', () => {
   let clock;
