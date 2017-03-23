@@ -36,4 +36,32 @@ describe('ForecastIO', () => {
       });
     });
   });
+
+  describe('#getFullForecastForCoordinatesOnWeekday()', () => {
+    it('implements a method for retrieving weather forecast for a given weekday via the Darksky API', () => {
+      let forecastIO = new ForecastIO('dummy-secret-key');
+
+      forecastIO.should.respondTo('getFullForecastForCoordinates');
+    });
+
+    it('resolves a promise to the value returned by the DarkSky API', () => {
+      let coordinates = _.values(fixtures.validCoordinates).join(','),
+          darkskySecretKey = 'dummy-secret-key',
+          futureDate = fixtures.unixTimestampValidWeekday,
+          forecastScope = nock('https://api.darksky.net')
+                            .get(`/forecast/${darkskySecretKey}/${coordinates},${futureDate}`)
+                            .reply(200, fixtures.sampleLocationWeekdayResponse),
+          forecastIO = new ForecastIO(darkskySecretKey),
+          forecastResult = forecastIO.getFullForecastForCoordinatesOnWeekday(
+              fixtures.validCoordinates,
+              futureDate
+          );
+
+      return forecastResult.then(result => {
+        forecastScope.isDone().should.equal(true);
+        result.should.deep.equal(fixtures.sampleLocationWeekdayResponse);
+      });
+    });
+  });
+
 });

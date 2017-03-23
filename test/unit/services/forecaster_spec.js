@@ -57,7 +57,7 @@ describe('Forecaster', () => {
       return forecastRequest.should.eventually.deep.equal(fixtures.sampleLocationResponse);
     });
 
-    it('rejects with the error from the geocoding driver', () => {
+    it('rejects with the error from the forecasting driver', () => {
       let forecastDriver = {
         getFullForecastForCoordinates: sinon.stub().withArgs(fixtures.validCoordinates).returns(
           Promise.reject(new Error("Connection with API timed out"))
@@ -112,7 +112,7 @@ describe('Forecaster', () => {
       return forecastRequest.should.eventually.deep.equal(fixtures.sampleLocationResponse);
     });
 
-    it('rejects with the error from the geocoding driver', () => {
+    it('rejects with the error from the forecasting driver', () => {
       let forecastDriver = {
         getFullForecastForCoordinatesOnWeekday: sinon.stub().withArgs(fixtures.validCoordinates).returns(
           Promise.reject(new Error("Connection with API timed out"))

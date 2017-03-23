@@ -26,6 +26,18 @@ class ForecastIO {
       });
     });
   }
+
+  getFullForecastForCoordinatesOnWeekday(coordinates, weekday) {
+    return new Promise((resolve, reject) => {
+      let coordinateString = _.values(coordinates).join(',');
+
+      return axios.get(
+        `https://api.darksky.net/forecast/${this.secretKey}/${coordinateString},${weekday}`
+      ).then(response => {
+        return resolve(response.data);
+      });
+    });
+  }
 }
 
 module.exports = ForecastIO;
