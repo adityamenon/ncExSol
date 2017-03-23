@@ -2,7 +2,6 @@ const _ = require('lodash');
 const ForecastIO = require('../../../drivers/weatherForecast/forecastio');
 const fixtures = require('../fixtures/forecastio_fixtures');
 const should = require('chai').should();
-const sinon = require('sinon');
 const nock = require('nock');
 
 describe('ForecastIO', () => {
@@ -35,6 +34,18 @@ describe('ForecastIO', () => {
         result.should.deep.equal(fixtures.sampleLocationResponse);
       });
     });
+
+    it('rejects a promise to the error returned by the DarkSky API', () => {
+      let coordinates = _.values(fixtures.validCoordinates).join(','),
+          darkskySecretKey = 'dummy-secret-key',
+          forecastScope = nock('https://api.darksky.net')
+                            .get(`/forecast/${darkskySecretKey}/${coordinates}`)
+                            .reply(500),
+        forecastIO = new ForecastIO(darkskySecretKey),
+        forecastResult = forecastIO.getFullForecastForCoordinates(fixtures.validCoordinates);
+
+      return forecastResult.should.be.rejectedWith(Error, 'Request failed with status code 500');
+    });
   });
 
   describe('#getFullForecastForCoordinatesOnWeekday()', () => {
@@ -62,6 +73,18 @@ describe('ForecastIO', () => {
         result.should.deep.equal(fixtures.sampleLocationWeekdayResponse);
       });
     });
-  });
 
+    it('rejects a promise to the error returned by the DarkSky API', () => {
+      let coordinates = _.values(fixtures.validCoordinates).join(','),
+          darkskySecretKey = 'dummy-secret-key',
+          futureDate = fixtures.unixTimestampValidWeekday,
+          forecastScope = nock('https://api.darksky.net')
+                          .get(`/forecast/${darkskySecretKey}/${coordinates},${futureDate}`)
+                          .reply(500),
+          forecastIO = new ForecastIO(darkskySecretKey),
+          forecastResult = forecastIO.getFullForecastForCoordinatesOnWeekday(fixtures.validCoordinates, futureDate);
+
+      return forecastResult.should.be.rejectedWith(Error, 'Request failed with status code 500');
+    });
+  });
 });

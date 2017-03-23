@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const sparseChecker = require('../../../util/sparseChecker');
 const should = require('chai').should();
 

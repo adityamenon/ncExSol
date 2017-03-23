@@ -1,7 +1,5 @@
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
-const _ = require('lodash');
-const sparseChecker = require('../util/sparseChecker');
 
 /**
  * Geocoder utilizes the driver instance passed to it, to geocode addresses.

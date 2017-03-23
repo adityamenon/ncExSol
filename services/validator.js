@@ -7,7 +7,6 @@ const _ = require('lodash');
  * Methods within simply receive input of any kind,
  * and get checked for validity according to business rules as may apply.
  * Each method returns a boolean.
- * All the methods are intended to be 'mixed into' the prototype chain of any class that needs validation.
  */
 
 class Validator {

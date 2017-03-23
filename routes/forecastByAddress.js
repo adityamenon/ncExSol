@@ -2,9 +2,9 @@ const router = require('express').Router();
 const config = require('config');
 
 /**
-  * Loading drivers dynamically from the configuration
-  * allows for dynamically switching out drivers for various other services
-  * that provide the same functionality in the future
+  * Loading drivers from  configuration
+  * allows for dynamically switching out drivers for various other APIs/data sources
+  * that provide the same functionality in the future.
   */
 const geocoderConfig = config.geocoder;
 const forecasterConfig = config.forecaster;
@@ -17,8 +17,8 @@ const Forecaster = require('../services/forecaster');
 
 router.get('/weather/:location', (request, response, next) => {
 	const location = request.params.location,
-		    geoDriver = new GeocoderDriver(geocoderConfig.credential),
-		    geocoder = new Geocoder(geoDriver),
+        geoDriver = new GeocoderDriver(geocoderConfig.credential),
+        geocoder = new Geocoder(geoDriver),
         forecastDriver = new ForecasterDriver(forecasterConfig.credential),
         forecaster = new Forecaster(forecastDriver);
 

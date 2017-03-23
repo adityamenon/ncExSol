@@ -11,24 +11,24 @@ const forecastFixtures = require('./fixtures/forecast_fixtures');
 context('route to forecast by address', () => {
 	it('responds to a request with forecast information', (done) => {
 		let address = geocodingFixtures.validAddress,
-          	mapboxAccessToken = config.geocoder.credential,
-          	geocodingScope = nock('https://api.mapbox.com')
+        mapboxAccessToken = config.geocoder.credential,
+        geocodingScope = nock('https://api.mapbox.com')
                             .get(`/geocoding/v5/mapbox.places/${address}.json`)
                             .query({access_token: mapboxAccessToken})
                             .reply(200, geocodingFixtures.sampleResponse),
-            coordinates = _.values(forecastFixtures.validCoordinates).join(','),
-          	darkskySecretKey = config.forecaster.credential,
-          	forecastScope = nock('https://api.darksky.net')
+        coordinates = _.values(forecastFixtures.validCoordinates).join(','),
+        darkskySecretKey = config.forecaster.credential,
+        forecastScope = nock('https://api.darksky.net')
                             .get(`/forecast/${darkskySecretKey}/${coordinates}`)
                             .reply(200, forecastFixtures.sampleLocationResponse),
-            request = supertest(app);
+        request = supertest(app);
 
 		/**
-		  * During Integration testing, I'm not sure what the better strategy is: 
+		  * During Integration testing, I'm not sure what the better strategy is:
 		  * 1. Test that the data APIs in question are being exercised or
 		  * 2. Test that the internal code services etc are being called or
 		  * 3. Do both.
-		  * 
+		  *
 		  * It felt like it was overkill to pick option (3)
 		  * It felt "right" to do option (1), because the internal services do have their own tests to verify
 		  * they are working, and at the route level, we are more concerned that the app is doing the "big picture"
@@ -52,6 +52,6 @@ context('route to forecast by address', () => {
         response.body.should.deep.equal(forecastFixtures.sampleLocationResponse);
 
         done();
-		  });
+		});
 	});
 });

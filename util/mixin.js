@@ -7,6 +7,12 @@ const _ = require('lodash');
  * It picks the specified methods from the Source class and adds them to the prototype of the Target class, such that
  * when new instances of the Target class are created thereafter, the instances will have access to the specified
  * methods.
+ *
+ * Example usage:
+ *
+ * Mixin.mix(SourceClass, TargetClass, ['method1',..,'methodN']
+ * // alternatively
+ * Mixin.mix(SourceClass, TargetClass, [{sourceMethod1: targetMethod1},..,{sourceMethodNameN: targetMethodN}]
  */
 class Mixin {
   static mix(Source, Target, methodList) {

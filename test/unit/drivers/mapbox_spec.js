@@ -1,7 +1,6 @@
 const Mapbox = require('../../../drivers/geocoder/mapbox');
 const fixtures = require('../fixtures/mapbox_fixtures');
 const should = require('chai').should();
-const sinon = require('sinon');
 const nock = require('nock');
 
 describe('Mapbox', () => {
@@ -35,5 +34,20 @@ describe('Mapbox', () => {
         result.should.deep.equal({longitude: '151.21', latitude: '-33.868'});
       });
     });
+  });
+
+
+
+  it('rejects a promise to the error returned by the DarkSky API', () => {
+    let address = fixtures.validAddress,
+      mapboxAccessToken = 'dummy-access-token',
+      geocodingScope = nock('https://api.mapbox.com')
+                        .get(`/geocoding/v5/mapbox.places/${address}.json`)
+                        .query({access_token: mapboxAccessToken})
+                        .reply(500),
+      mapbox = new Mapbox(mapboxAccessToken),
+      geocodeResult = mapbox.geocodeAddress(address);
+
+    return geocodeResult.should.be.rejectedWith(Error, 'Request failed with status code 500');
   });
 });

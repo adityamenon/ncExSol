@@ -1,7 +1,6 @@
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
 const Dates = require('../util/dates');
-const _ = require('lodash');
 
 /**
  * Forecaster utilizes the driver instance passed to it, to retrieve weather forecast data.

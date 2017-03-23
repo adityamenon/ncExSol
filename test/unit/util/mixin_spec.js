@@ -50,6 +50,21 @@ describe('Mixin', () => {
       Target.prototype.should.haveOwnProperty('fizz');
       Target.prototype.should.not.haveOwnProperty('baz');
     });
+
+    it('does not affect the Target class prototype if the source name is not a string or object', function () {
+      let Source = class {
+        foo() {}
+        bar() {}
+        baz() {}
+      };
+      let Target = class {};
+      let methodList = [null, undefined, 2];
+      let SavedPrototype = Target.prototype;
+
+      Mixin.mix(Source, Target, methodList);
+
+      Target.prototype.should.deep.equal(SavedPrototype);
+    });
   });
 });
 

@@ -1,13 +1,20 @@
 const moment = require('moment');
 const _ = require('lodash');
 
+/**
+ * Date related logic and utilities.
+ */
 class Dates {
+  /**
+   * futureDayTimestamp generates UNIX seconds for a given weekday, as per business logic requirements
+   *
+   * @param dayName: A valid weekday name
+   * @returns number
+   */
   static futureDayTimestamp(dayName) {
     dayName = _.trim(dayName).toLocaleLowerCase();
 
-    // avoid locale problems in runtime environments
-    // possible because the application is not to be timezone aware
-    let referenceMoment = moment().utc(false),
+    let referenceMoment = moment(),
         referenceMomentCopy = referenceMoment.clone();
 
     // if we're just trying to get for `today`, return the current time
