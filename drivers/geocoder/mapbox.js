@@ -16,16 +16,15 @@ class Mapbox {
 
   // Not doing any validations here, because this driver
   // is meant to be used via the service.
-  // TODO: handle mapbox API failures
   geocodeAddress(address) {
     return new Promise((resolve, reject) => {
       return axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json`, {
         params: {
           access_token: this.accessToken
         }
-      }).then(response => {
-        return resolve(extractCoordinates(response.data));
-      });
+      })
+      .then(response => resolve(extractCoordinates(response.data)))
+      .catch(error => reject(error));
     });
   }
 }

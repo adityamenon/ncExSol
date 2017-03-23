@@ -14,16 +14,15 @@ class ForecastIO {
     this.secretKey = secretKey;
   }
 
-  // TODO: handle darksky API failures
   getFullForecastForCoordinates(coordinates) {
     return new Promise((resolve, reject) => {
       let coordinateString = _.values(coordinates).join(',');
 
       return axios.get(
         `https://api.darksky.net/forecast/${this.secretKey}/${coordinateString}`
-      ).then(response => {
-        return resolve(response.data);
-      });
+      )
+      .then(response => resolve(response.data))
+      .catch(error => reject(error));
     });
   }
 
@@ -33,9 +32,9 @@ class ForecastIO {
 
       return axios.get(
         `https://api.darksky.net/forecast/${this.secretKey}/${coordinateString},${weekday}`
-      ).then(response => {
-        return resolve(response.data);
-      });
+      )
+      .then(response => resolve(response.data))
+      .catch(error => reject(error));
     });
   }
 }
