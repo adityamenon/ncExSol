@@ -30,7 +30,7 @@ router.get('/weather/:location/:weekday', (request, response) => {
             });
           })
           .catch(error => {
-            throw error;
+            next({status: 500, message: error, error});
           });
 });
 

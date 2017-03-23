@@ -15,25 +15,23 @@ const Geocoder = require('../services/geocoder');
 const ForecasterDriver = require('../drivers/weatherForecast/' + forecasterConfig.driver);
 const Forecaster = require('../services/forecaster');
 
-router.get('/weather/:location', (request, response) => {
+router.get('/weather/:location', (request, response, next) => {
 	const location = request.params.location,
 		    geoDriver = new GeocoderDriver(geocoderConfig.credential),
 		    geocoder = new Geocoder(geoDriver),
         forecastDriver = new ForecasterDriver(forecasterConfig.credential),
         forecaster = new Forecaster(forecastDriver);
 
-  geocoder.getCoordinatesFor(location)
+  return geocoder.getCoordinatesFor(location)
           .then(coordinates => forecaster.getFullForecastFor(coordinates))
           .then(forecast => {
             return response.format({
               html: () => response.render('fullForecast', {forecast}),
-              json: () => {
-                response.send(forecast)
-              }
+              json: () => response.send(forecast)
             });
           })
           .catch(error => {
-            throw error;
+            next({status: 500, message: error, error});
           });
 });
 
