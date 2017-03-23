@@ -10,6 +10,11 @@ class Dates {
     let referenceMoment = moment().utc(false),
         referenceMomentCopy = referenceMoment.clone();
 
+    // if we're just trying to get for `today`, return the current time
+    if(dayName === 'today') {
+      return referenceMoment.unix();
+    }
+
     // If the ISO weekday of the passed date matches
     // with the ISO weekday of today,
     // provide a timestamp 7 days from now

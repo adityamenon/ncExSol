@@ -82,5 +82,9 @@ describe('Validator', () => {
 
       Validator.day.validDaysOfTheWeek.should.deep.equal(validDays);
     });
+
+    it('does not reject the word `today` as invalid', () => {
+      Validator.day('today').should.equal(true);
+    });
   });
 });

@@ -6,9 +6,9 @@ const nock = require('nock');
 const _ = require('lodash');
 const config = require('config');
 const sinon = require('sinon');
+const moment = require('moment');
 const geocodingFixtures = require('./fixtures/geocoding_fixtures');
 const forecastFixtures = require('./fixtures/forecast_fixtures');
-const moment = require('moment');
 
 context('route to forecast by address and day', () => {
   let clock;

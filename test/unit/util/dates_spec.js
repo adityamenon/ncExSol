@@ -24,6 +24,10 @@ describe('Dates', () => {
     it('provides UNIX seconds for the same day next week if passed day is same as today', () => {
       Dates.futureDayTimestamp('Monday').should.equal(1490572800);
     });
+
+    it('provides UNIX seconds for the current time if the passed day is the word `today`', () => {
+      Dates.futureDayTimestamp('TodAy').should.equal(1489968000);
+    });
   });
 
   afterEach(() => clock.restore());

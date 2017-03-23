@@ -63,7 +63,7 @@ class Validator {
   static day(day) {
     let sanitizedDay = _.trim(day).toLocaleLowerCase();
 
-    return _.isString(day) && _.includes(Validator.day.validDaysOfTheWeek, sanitizedDay);
+    return _.isString(day) && (day === 'today' || _.includes(Validator.day.validDaysOfTheWeek, sanitizedDay));
   }
 }
 
