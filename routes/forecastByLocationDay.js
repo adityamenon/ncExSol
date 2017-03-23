@@ -1,11 +1,6 @@
 const router = require('express').Router();
 const config = require('config');
 
-/**
-  * Loading drivers dynamically from the configuration
-  * allows for dynamically switching out drivers for various other services
-  * that provide the same functionality in the future
-  */
 const geocoderConfig = config.geocoder;
 const forecasterConfig = config.forecaster;
 
@@ -15,15 +10,17 @@ const Geocoder = require('../services/geocoder');
 const ForecasterDriver = require('../drivers/weatherForecast/' + forecasterConfig.driver);
 const Forecaster = require('../services/forecaster');
 
-router.get('/weather/:location', (request, response) => {
-	const location = request.params.location,
-		    geoDriver = new GeocoderDriver(geocoderConfig.credential),
-		    geocoder = new Geocoder(geoDriver),
+// TODO handle routes that get called with incomplete parameters
+router.get('/weather/:location/:weekday', (request, response) => {
+  const location = request.params.location,
+        weekday = request.params.weekday,
+        geoDriver = new GeocoderDriver(geocoderConfig.credential),
+        geocoder = new Geocoder(geoDriver),
         forecastDriver = new ForecasterDriver(forecasterConfig.credential),
         forecaster = new Forecaster(forecastDriver);
 
   geocoder.getCoordinatesFor(location)
-          .then(coordinates => forecaster.getFullForecastFor(coordinates))
+          .then(coordinates => forecaster.getFullForecastForDay(coordinates, weekday))
           .then(forecast => {
             return response.format({
               html: () => response.render('fullForecast', {forecast}),

@@ -8,7 +8,7 @@ const config = require('config');
 const geocodingFixtures = require('./fixtures/geocoding_fixtures');
 const forecastFixtures = require('./fixtures/forecast_fixtures');
 
-context('forecast by address route', () => {
+context('route to forecast by address', () => {
 	it('responds to a request with forecast information', (done) => {
 		let address = geocodingFixtures.validAddress,
           	mapboxAccessToken = config.geocoder.credential,
@@ -20,7 +20,7 @@ context('forecast by address route', () => {
           	darkskySecretKey = config.forecaster.credential,
           	forecastScope = nock('https://api.darksky.net')
                             .get(`/forecast/${darkskySecretKey}/${coordinates}`)
-                            .reply(200, forecastFixtures.sampleResponse),
+                            .reply(200, forecastFixtures.sampleLocationResponse),
             request = supertest(app);
 
 		/**
@@ -49,7 +49,7 @@ context('forecast by address route', () => {
         response.statusCode.should.equal(200);
 
         response.headers['content-type'].should.equal('application/json; charset=utf-8');
-        response.body.should.deep.equal(forecastFixtures.sampleResponse);
+        response.body.should.deep.equal(forecastFixtures.sampleLocationResponse);
 
         done();
 		  });

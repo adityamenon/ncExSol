@@ -5,39 +5,42 @@ const should = require('chai').should();
 const nock = require('nock');
 const _ = require('lodash');
 const config = require('config');
-const mapboxFixtures = require('../unit/fixtures/mapbox_fixtures');
-const forecastIOFixtures = require('../unit/fixtures/forecastio_fixtures');
+const geocodingFixtures = require('./fixtures/geocoding_fixtures');
+const forecastFixtures = require('./fixtures/forecast_fixtures');
 
-context('forecast by address filtered by day route', () => {
+context('route to forecast by address and day', () => {
   it('responds to a request with forecast information', (done) => {
-    let address = mapboxFixtures.validAddress,
-        mapboxAccessToken = config.geocoder.credential,
-        geocodingScope = nock('https://api.mapbox.com')
-                          .get(`/geocoding/v5/mapbox.places/${address}.json`)
-                          .query({access_token: mapboxAccessToken})
-                          .reply(200, mapboxFixtures.sampleResponse),
-        coordinates = _.values(forecastIOFixtures.validCoordinates).join(','),
-        darkskySecretKey = config.forecaster.credential,
-        forecastScope = nock('https://api.darksky.net')
-                          .get(`/forecast/${darkskySecretKey}/${coordinates}`)
-                          .reply(200, forecastIOFixtures.sampleResponse),
-        request = supertest(app);
+    let address = geocodingFixtures.validAddress,
+            mapboxAccessToken = config.geocoder.credential,
+            geocodingScope = nock('https://api.mapbox.com')
+                            .get(`/geocoding/v5/mapbox.places/${address}.json`)
+                            .query({access_token: mapboxAccessToken})
+                            .reply(200, geocodingFixtures.sampleResponse),
+            coordinates = _.values(forecastFixtures.validCoordinates).join(','),
+            timestamp = forecastFixtures.forecastDate,
+            darkskySecretKey = config.forecaster.credential,
+            forecastScope = nock('https://api.darksky.net')
+                            .get(`/forecast/${darkskySecretKey}/${coordinates},${timestamp}`)
+                            .reply(200, forecastFixtures.sampleLocationDateResponse),
+            request = supertest(app);
 
-    request.get('/weather/' + mapboxFixtures.validAddress, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).end((error, response) => {
-      // Geocoding API was called first and completed
-      geocodingScope.isDone().should.equal(true);
+    request
+      .get('/weather/' + geocodingFixtures.validAddress + '/wednesday')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        // Geocoding API was called first and completed
+        geocodingScope.isDone().should.equal(true);
 
-      // Forecast API was then called, and completed
-      forecastScope.isDone().should.equal(true);
+        // Forecast API was then called, and completed
+        forecastScope.isDone().should.equal(true);
 
-      // finally test the response that got back
-      response.statusCode.should.equal(200);
+        // finally test the response that got back
+        response.statusCode.should.equal(200);
 
-      done();
-    });
+        response.headers['content-type'].should.equal('application/json; charset=utf-8');
+        response.body.should.deep.equal(forecastFixtures.sampleLocationDateResponse);
+
+        done();
+      });
   });
 });

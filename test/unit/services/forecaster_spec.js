@@ -75,4 +75,59 @@ describe('Forecaster', () => {
     });
   });
 
+  describe('#getFullForecastForDay()', () => {
+    it('implements a method for retrieving requested weather information for a weekday', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinatesOnWeekday: sinon.stub()
+      },
+      forecaster = new Forecaster(forecastDriver);
+
+      forecaster.should.respondTo('getFullForecastForDay');
+    });
+
+   it('fails for an invalid coordinate pair through a Promise rejection', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinatesOnWeekday: sinon.stub()
+      },
+      forecaster = new Forecaster(forecastDriver),
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidCoordinates);
+
+      return forecastRequest.should.be.rejected;
+    });
+
+   it('fails for an invalid weekday through a Promise rejection', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinatesOnWeekday: sinon.stub()
+      },
+      forecaster = new Forecaster(forecastDriver),
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidCoordinates);
+
+      return forecastRequest.should.be.rejected;
+   })
+
+    it('resolves to the value returned by the forecasting driver promise', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinatesOnWeekday: sinon.stub().withArgs(fixtures.validCoordinates).returns(
+          Promise.resolve(fixtures.sampleResponse)
+        )
+      },
+      forecaster = new Forecaster(forecastDriver),
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates);
+
+      return forecastRequest.should.eventually.deep.equal(fixtures.sampleResponse);
+    });
+
+    it('rejects with the error from the geocoding driver', () => {
+      let forecastDriver = {
+        getFullForecastForCoordinatesOnWeekday: sinon.stub().withArgs(fixtures.validCoordinates).returns(
+          Promise.reject(new Error("Connection with API timed out"))
+        )
+      },
+      forecaster = new Forecaster(forecastDriver),
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates);
+
+      return forecastRequest.should.be.rejectedWith(Error, "Connection with API timed out");
+    });
+  });
+
 });
