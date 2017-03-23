@@ -9,7 +9,7 @@ const sparseChecker = require('../util/sparseChecker');
  */
 class Geocoder {
   constructor(driver) {
-    if(sparseChecker(driver) || ! _.isFunction(driver.geocodeAddress)) {
+    if(! driver) {
       throw new Error('Invalid driver provided.');
     }
 
@@ -20,11 +20,9 @@ class Geocoder {
     return new Promise((resolve, reject) => {
       if (! this.validAddress(address)) return reject(new Error("Invalid Address supplied."));
 
-      return this.driver.geocodeAddress(address).then(
-      	coordinates => resolve(coordinates)
-      ).catch(
-      	error => reject(error)
-      );
+      return this.driver.geocodeAddress(address)
+              .then(coordinates => resolve(coordinates))
+              .catch(error => reject(error));
     });
   }
 }

@@ -1,9 +1,6 @@
-const forecastByAddressRoute = require('./routes/forecastByAddress');
 /**
  * express.js default generated code
  */
-
- // TODO: in case of any promise rejections, bubble the error out to HTTP via the express error handler interface
 
 var express = require('express');
 var path = require('path');
@@ -12,8 +9,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-const forecastByAddress = require('./routes/forecastByAddress');
-const forecastByLocationDay = require('./routes/forecastByLocationDay');
+const forecastByAddressRoute = require('./routes/forecastByAddress');
+const forecastByLocationDayRoute = require('./routes/forecastByLocationDay');
 
 var app = express();
 
@@ -28,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/', forecastByAddressRoute);
-app.use('/', forecastByLocationDay);
+app.use('/', forecastByLocationDayRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

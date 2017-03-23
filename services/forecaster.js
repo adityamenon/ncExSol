@@ -20,11 +20,9 @@ class Forecaster {
     return new Promise((resolve, reject) => {
       if (!this.validCoordinates(coordinates)) return reject(new Error("Invalid Coordinates supplied."));
 
-      return this.driver.getFullForecastForCoordinates(coordinates).then(
-      forecast => resolve(forecast)
-      ).catch(
-      error => reject(error)
-      );
+      return this.driver.getFullForecastForCoordinates(coordinates)
+              .then(forecast => resolve(forecast))
+              .catch(error => reject(error));
     });
   }
 
@@ -36,11 +34,9 @@ class Forecaster {
 
       let futureTimestamp = Dates.futureDayTimestamp(weekday);
 
-      return this.driver.getFullForecastForCoordinatesOnWeekday(coordinates, futureTimestamp).then(
-      forecast => resolve(forecast)
-      ).catch(
-      error => reject(error)
-      );
+      return this.driver.getFullForecastForCoordinatesOnWeekday(coordinates, futureTimestamp)
+              .then(forecast => resolve(forecast))
+              .catch(error => reject(error));
     });
   }
 }
