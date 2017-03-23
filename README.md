@@ -8,11 +8,13 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
 ### Usage
 
 1. `$ git clone` this repository and `cd` to its directory.
-2. Make sure to install Node.js version `6.10.0` - consider using `nvm`. 
-3. Then run the following commands:
+2. Make sure to install Node.js version `6.10.0` - consider using `nvm`.
+3. Make a copy of the configuration sample file: `$ cp ./config/default.sample.js ./config/default.js`
+4. IMPORTANT: Update the configuration file with your Mapbox Access Token and Forecast.io secret key.
+5. Then run the following commands:
     1. `$ npm install`
     2. `$ npm start`
-4. Open `http://0.0.0.0:3000`
+6. Open the routes of the app as mentioned in the test description with the base URL http://localhost:3000/
 
 #### Usage with Docker
 
@@ -20,14 +22,18 @@ Not mentioning the company name for privacy. Exercise located here: https://goo.
 
 1. Install the native Docker client for your machine: https://www.docker.com/community-edition and start it.
 2. `$ git clone` this repository and `cd` to its directory.
-3. Then run the following commands:
+3. Make a copy of the configuration sample file: `$ cp ./config/default.sample.js ./config/default.js`
+4. IMPORTANT: Update the configuration file with your Mapbox Access Token and Forecast.io secret key.
+5. Then run the following commands:
     1. `$ docker build -t adityamenon/nc-ex-sol .`
     2. `$ docker run -p 49160:3000 -d adityamenon/nc-ex-sol`
-4. Open `http://0.0.0.0:49160`
-5. TODO: add instructions for configuration changes
+6. Open the routes of the app as mentioned in the test description with the base URL `http://0.0.0.0:49160`
 
-After the installation and startup, it's possible to either `curl` the endpoints mentioned in the problem, or visit the 
-respective URLs in the browser.- 
+After the installation and startup, it's possible to either `curl` the endpoints mentioned in the problem, or visit the
+respective URLs in the browser.
+
+In order to receive the results in `JSON`, please attach the `Accept: application/json` header when querying the
+endpoint.
 
 ### Run tests
 
@@ -42,7 +48,6 @@ respective URLs in the browser.-
     1. Some basic work lives in the `attempt_better_express_init` task.
     2. Inspired by what I saw in [Ghost](https://github.com/TryGhost/Ghost/blob/master/core/server/index.js) 
     initialisation code.
-    3. Couldn't implement because I need a lot more time for wrapping my mind around _testing_ such code.
 2. More integration tests.
     1. Wanted to test coherent reactions of the API when one of the data APIs fails, for example, and further expansions
      like testing a proper 500 being returned at every single level of failure. But currently lack the time to expand 
@@ -50,7 +55,7 @@ respective URLs in the browser.-
     2. My current integration still mock the API, so they're more at a functional level. Need more tests that actually 
     also rely on the real APIs.
         1. Doing this would require figuring out a configuration setup to provide real access tokens to these APIs as 
-        well, and probably running a separate docker container for it, too much complication to complete the test.
+        well, and probably running a separate docker container for it, too much complication to complete the assignment.
     3. Supertest library doesn't appear to support the `response.format` shortcut I liked to use in my routes for 
     responding in two different formats. Need to raise a PR to supertest to fix this.
 2. Geocoding information caching
@@ -73,8 +78,6 @@ respective URLs in the browser.-
     much more robustly). Need to search the internet properly again and utilise.
     1. Found _.mixin later on, but it's interface is not quite what I'm after with my rendition.
 6. The docker image should be pushed to Dockerhub so pulling it and running it would be a snap.
-    1. Right now the codebase is in a good deal of flux so I don't want to 'publish' yet. Bad UX to
-    make the user build the image by themselves though.
 7. Needing to use `haveOwnProperty` instead of `respondsTo` assertion particularly for testing presence of 
     static methods on classes. Not sure why the latter isn't working as expected, needs research.
 8. The validator service has potential to become extremely messy as the application grows, it will need
@@ -85,9 +88,6 @@ respective URLs in the browser.-
     though.
 11. Need a dependency injection container (Scatter or Electrolyte) to be able to register drivers for services 
 automatically without the current cumbersome instantiation process.
-12. JSLINT!!
-13. NODE_PATH!!
-
 
 ### Even nicer-to-haves
 
