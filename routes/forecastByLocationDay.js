@@ -10,8 +10,7 @@ const Geocoder = require('../services/geocoder');
 const ForecasterDriver = require('../drivers/weatherForecast/' + forecasterConfig.driver);
 const Forecaster = require('../services/forecaster');
 
-// TODO handle routes that get called with incomplete parameters
-router.get('/weather/:location/:weekday', (request, response) => {
+router.get('/weather/:location/:weekday', (request, response, next) => {
   const location = request.params.location,
         weekday = request.params.weekday,
         geoDriver = new GeocoderDriver(geocoderConfig.credential),
