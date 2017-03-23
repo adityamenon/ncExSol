@@ -85,7 +85,7 @@ describe('Forecaster', () => {
         getFullForecastForCoordinatesOnWeekday: sinon.stub()
       },
       forecaster = new Forecaster(forecastDriver),
-      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidCoordinates);
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidCoordinates, fixtures.validWeekday);
 
       return forecastRequest.should.be.rejected;
     });
@@ -95,7 +95,7 @@ describe('Forecaster', () => {
         getFullForecastForCoordinatesOnWeekday: sinon.stub()
       },
       forecaster = new Forecaster(forecastDriver),
-      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidWeekday);
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates, fixtures.invalidWeekday);
 
       return forecastRequest.should.be.rejected;
    });
@@ -107,7 +107,7 @@ describe('Forecaster', () => {
         )
       },
       forecaster = new Forecaster(forecastDriver),
-      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates);
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates, fixtures.validWeekday);
 
       return forecastRequest.should.eventually.deep.equal(fixtures.sampleLocationResponse);
     });
@@ -119,7 +119,7 @@ describe('Forecaster', () => {
         )
       },
       forecaster = new Forecaster(forecastDriver),
-      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates);
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates, fixtures.validWeekday);
 
       return forecastRequest.should.be.rejectedWith(Error, "Connection with API timed out");
     });

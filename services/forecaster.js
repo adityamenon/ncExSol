@@ -1,7 +1,6 @@
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
 const _ = require('lodash');
-const sparseChecker = require('../util/sparseChecker');
 
 /**
  * Forecaster utilizes the driver instance passed to it, to retrieve weather forecast data.
@@ -33,13 +32,19 @@ class Forecaster {
       if (! this.validCoordinates(coordinates) || ! this.validWeekday(weekday)) {
         return reject(new Error("Invalid coordinates or weekday supplied."));
       }
+
+      return this.driver.getFullForecastForCoordinatesOnWeekday(coordinates, weekday).then(
+        forecast => resolve(forecast)
+      ).catch(
+        error => reject(error)
+      );
     });
   }
 }
 
-Mixin.mix(Validator, Forecaster, [{
-  'latLongPair': 'validCoordinates',
-  'day': 'validWeekday'
-}]);
+Mixin.mix(Validator, Forecaster, [
+  {'latLongPair': 'validCoordinates'},
+  {'day': 'validWeekday'}
+]);
 
 module.exports = Forecaster;
