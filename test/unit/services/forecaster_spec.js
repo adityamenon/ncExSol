@@ -13,11 +13,6 @@ describe('Forecaster', () => {
       let forecaster = () => new Forecaster;
       should.throw(forecaster, Error, 'Invalid driver provided.');
     });
-
-    it('fails to initialise if driver object does not contain required methods', () => {
-      let forecaster = () => new Forecaster({foo: 'bar'});
-      should.throw(forecaster, Error, 'Invalid driver provided.');
-    })
   });
 
   context('Check for presence of required validator functions', () => {
@@ -53,13 +48,13 @@ describe('Forecaster', () => {
     it('resolves to the value returned by the forecasting driver promise', () => {
       let forecastDriver = {
         getFullForecastForCoordinates: sinon.stub().withArgs(fixtures.validCoordinates).returns(
-          Promise.resolve(fixtures.sampleResponse)
+          Promise.resolve(fixtures.sampleLocationResponse)
         )
       },
       forecaster = new Forecaster(forecastDriver),
       forecastRequest = forecaster.getFullForecastFor(fixtures.validCoordinates);
 
-      return forecastRequest.should.eventually.deep.equal(fixtures.sampleResponse);
+      return forecastRequest.should.eventually.deep.equal(fixtures.sampleLocationResponse);
     });
 
     it('rejects with the error from the geocoding driver', () => {
@@ -100,21 +95,21 @@ describe('Forecaster', () => {
         getFullForecastForCoordinatesOnWeekday: sinon.stub()
       },
       forecaster = new Forecaster(forecastDriver),
-      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidCoordinates);
+      forecastRequest = forecaster.getFullForecastForDay(fixtures.invalidWeekday);
 
       return forecastRequest.should.be.rejected;
-   })
+   });
 
     it('resolves to the value returned by the forecasting driver promise', () => {
       let forecastDriver = {
         getFullForecastForCoordinatesOnWeekday: sinon.stub().withArgs(fixtures.validCoordinates).returns(
-          Promise.resolve(fixtures.sampleResponse)
+          Promise.resolve(fixtures.sampleLocationResponse)
         )
       },
       forecaster = new Forecaster(forecastDriver),
       forecastRequest = forecaster.getFullForecastForDay(fixtures.validCoordinates);
 
-      return forecastRequest.should.eventually.deep.equal(fixtures.sampleResponse);
+      return forecastRequest.should.eventually.deep.equal(fixtures.sampleLocationResponse);
     });
 
     it('rejects with the error from the geocoding driver', () => {

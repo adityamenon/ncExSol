@@ -26,13 +26,13 @@ describe('ForecastIO', () => {
           darkskySecretKey = 'dummy-secret-key',
           forecastScope = nock('https://api.darksky.net')
                             .get(`/forecast/${darkskySecretKey}/${coordinates}`)
-                            .reply(200, fixtures.sampleResponse),
+                            .reply(200, fixtures.sampleLocationResponse),
           forecastIO = new ForecastIO(darkskySecretKey),
           forecastResult = forecastIO.getFullForecastForCoordinates(fixtures.validCoordinates);
 
       return forecastResult.then(result => {
         forecastScope.isDone().should.equal(true);
-        result.should.deep.equal(fixtures.sampleResponse);
+        result.should.deep.equal(fixtures.sampleLocationResponse);
       });
     });
   });

@@ -9,7 +9,7 @@ const sparseChecker = require('../util/sparseChecker');
  */
 class Forecaster {
   constructor(driver) {
-    if(sparseChecker(driver) || ! _.isFunction(driver.getFullForecastForCoordinates)) {
+    if(! driver) {
       throw new Error('Invalid driver provided.');
     }
 
@@ -27,8 +27,19 @@ class Forecaster {
       );
     });
   }
+
+  getFullForecastForDay(coordinates, weekday) {
+    return new Promise((resolve, reject) => {
+      if (! this.validCoordinates(coordinates) || ! this.validWeekday(weekday)) {
+        return reject(new Error("Invalid coordinates or weekday supplied."));
+      }
+    });
+  }
 }
 
-Mixin.mix(Validator, Forecaster, [{'latLongPair': 'validCoordinates'}]);
+Mixin.mix(Validator, Forecaster, [{
+  'latLongPair': 'validCoordinates',
+  'day': 'validWeekday'
+}]);
 
 module.exports = Forecaster;
