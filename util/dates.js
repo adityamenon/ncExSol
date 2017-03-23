@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 class Dates {
   static futureDayTimestamp(dayName) {
-    dayName = _.trim(dayName);
+    dayName = _.trim(dayName).toLocaleLowerCase();
 
     // avoid locale problems in runtime environments
     // possible because the application is not to be timezone aware

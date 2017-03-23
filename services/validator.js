@@ -61,12 +61,12 @@ class Validator {
    * @returns boolean
    */
   static day(day) {
-    let sanitizedDay = _.trim(day);
+    let sanitizedDay = _.trim(day).toLocaleLowerCase();
 
     return _.isString(day) && _.includes(Validator.day.validDaysOfTheWeek, sanitizedDay);
   }
 }
 
-Validator.day.validDaysOfTheWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+Validator.day.validDaysOfTheWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 module.exports = Validator;

@@ -78,7 +78,7 @@ describe('Validator', () => {
     });
 
     it('has the correct idea about what the days of the week are', () => {
-      let validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      let validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
       Validator.day.validDaysOfTheWeek.should.deep.equal(validDays);
     });

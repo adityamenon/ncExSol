@@ -12,7 +12,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-// const forecastByAddress = require('./routes/forecastByAddress');
+const forecastByAddress = require('./routes/forecastByAddress');
+const forecastByLocationDay = require('./routes/forecastByLocationDay');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/', forecastByAddressRoute);
+app.use('/', forecastByLocationDay);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

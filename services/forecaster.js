@@ -1,5 +1,6 @@
 const Mixin = require('../util/mixin');
 const Validator = require('./validator');
+const Dates = require('../util/dates');
 const _ = require('lodash');
 
 /**
@@ -8,7 +9,7 @@ const _ = require('lodash');
  */
 class Forecaster {
   constructor(driver) {
-    if(! driver) {
+    if (!driver) {
       throw new Error('Invalid driver provided.');
     }
 
@@ -17,26 +18,28 @@ class Forecaster {
 
   getFullForecastFor(coordinates) {
     return new Promise((resolve, reject) => {
-      if (! this.validCoordinates(coordinates)) return reject(new Error("Invalid Coordinates supplied."));
+      if (!this.validCoordinates(coordinates)) return reject(new Error("Invalid Coordinates supplied."));
 
       return this.driver.getFullForecastForCoordinates(coordinates).then(
-        forecast => resolve(forecast)
+      forecast => resolve(forecast)
       ).catch(
-        error => reject(error)
+      error => reject(error)
       );
     });
   }
 
   getFullForecastForDay(coordinates, weekday) {
     return new Promise((resolve, reject) => {
-      if (! this.validCoordinates(coordinates) || ! this.validWeekday(weekday)) {
+      if (!this.validCoordinates(coordinates) || !this.validWeekday(weekday)) {
         return reject(new Error("Invalid coordinates or weekday supplied."));
       }
 
-      return this.driver.getFullForecastForCoordinatesOnWeekday(coordinates, weekday).then(
-        forecast => resolve(forecast)
+      let futureTimestamp = Dates.futureDayTimestamp(weekday);
+
+      return this.driver.getFullForecastForCoordinatesOnWeekday(coordinates, futureTimestamp).then(
+      forecast => resolve(forecast)
       ).catch(
-        error => reject(error)
+      error => reject(error)
       );
     });
   }
